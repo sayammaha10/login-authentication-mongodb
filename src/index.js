@@ -44,10 +44,11 @@ app.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(data.password, saltRounds);
     data.password = hashedPassword;
 
-    const userData = await collection.insertOne(data);
+    const userData = await collection.create(data);
     console.log(userData);
     return res.send("User registered successfully! Please log in.");
   } catch (error) {
+    console.error("Signup error:", error.message);
     return res.status(500).send("An error occurred during registration.");
   }
 });
